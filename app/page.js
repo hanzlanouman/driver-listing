@@ -1,5 +1,11 @@
-import Image from 'next/image';
-
-export default function Home() {
-  return <main className='flex min-h-screen bg-primary'></main>;
+import React from 'react'
+import LandingPage from '@/components/pages/LandingPage'
+const HomeLink = () => {
+  return (
+    <div>
+        <LandingPage/>
+    </div>
+  )
 }
+
+export default HomeLink
