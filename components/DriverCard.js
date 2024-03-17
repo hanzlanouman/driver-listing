@@ -3,12 +3,13 @@ import Image from 'next/image';
 import React from 'react';
 import { RiStackFill, RiStarFill, RiUserLocationLine } from 'react-icons/ri';
 
-const DoctorCard = ({ driver }) => {
+const DoctorCard = ({ driver ={} }) => {
   const { name, gender, age, experience, location, reviews, expertise, image } =
     driver;
   return (
+    <div className=''>
     <div
-      className='min-h-[430px]  shadow-lg  overflow-hidden bg-white flex flex-col justify-between
+      className='min-h-[430px] max-w-[24rem] shadow-lg rounded  overflow-hidden bg-white flex flex-col justify-between
     hover:shadow-xl transition duration-300 ease-in-out cursor-pointer 
     '
     >
@@ -63,6 +64,7 @@ const DoctorCard = ({ driver }) => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };
