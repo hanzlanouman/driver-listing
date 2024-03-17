@@ -1,11 +1,12 @@
-// import AboutPage from './About/page';
-// import Driverdetail from "./DriverDetail/page";
 
-export default function Home() {
+import React from 'react'
+import LandingPage from '@/components/pages/LandingPage'
+const HomeLink = () => {
   return (
-    <main className='flex min-h-screen bg-secondary'>
-      {/* <AboutPage /> */}
-      {/* <Driverdetail/> */}
-    </main>
-  );
+    <div>
+        <LandingPage/>
+    </div>
+  )
 }
+
+export default HomeLink
