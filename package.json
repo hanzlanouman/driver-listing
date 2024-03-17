@@ -9,6 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@iconscout/react-unicons": "^2.0.2",
+    "@iconscout/react-unicons-solid": "^1.0.2",
+    "@nextui-org/react": "^2.2.10",
+    "@radix-ui/react-accordion": "^1.1.2",
+    "@radix-ui/react-slot": "^1.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "lucide-react": "^0.358.0",

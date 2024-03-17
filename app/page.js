@@ -1,5 +1,11 @@
-import Image from 'next/image';
+// import AboutPage from './About/page';
+// import Driverdetail from "./DriverDetail/page";
 
 export default function Home() {
-  return <main className='flex min-h-screen bg-primary'></main>;
+  return (
+    <main className='flex min-h-screen bg-secondary'>
+      {/* <AboutPage /> */}
+      {/* <Driverdetail/> */}
+    </main>
+  );
 }
