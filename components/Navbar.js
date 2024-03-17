@@ -44,7 +44,7 @@ function Navbar() {
               </SheetHeader>
               <SheetDescription className='flex-col'>
                 <Link href="/" className='hover:text-primary'>Home</Link>
-                <Link href="/listing"  className='hover:text-primary'>Listing</Link>
+                <Link href="/listings"  className='hover:text-primary'>Listing</Link>
                 <Link href="/about"  className='hover:text-primary'>About Us</Link>
                 <Link href="/contact"  className='hover:text-primary'>Contact Us</Link>
               </SheetDescription>
@@ -55,7 +55,7 @@ function Navbar() {
         <div className={`hidden lg:flex lg:items-center md:flex md:items-center ${isMenuOpen ? 'block' : 'hidden'}`}>
           <div className='flex lg:gap-4 md:gap-2 text-md'>
             <Link href='/' className='hover:text-primary'>Home</Link>
-            <Link href='/listing' className='hover:text-primary'>Listing</Link>
+            <Link href='/listings' className='hover:text-primary'>Listing</Link>
             <Link href='/about' className='hover:text-primary'>About Us</Link>
             <Link href='/contact' className='hover:text-primary'>Contact Us</Link>
           </div>
