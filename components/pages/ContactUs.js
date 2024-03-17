@@ -6,10 +6,8 @@ import Footer from '../Footer'
 function ContactUs() {
   return (
     <div>
-      <Navbar/>       
     <Contactsplash/>
     <ContactUsForm/>
-    <Footer/>
     </div>
   )
 }

@@ -39,20 +39,16 @@ function Navbar() {
             </SheetTrigger>
             <SheetContent side="left" className={`${isMenuOpen ? 'block' : 'hidden'}`}>
               <SheetHeader>
-                <SheetTitle>Menu</SheetTitle>
-                <SheetClose asChild>
-                  <button onClick={toggleMenu}>Close</button>
-                </SheetClose>
+                <SheetTitle >Driver Listing</SheetTitle>
+              
               </SheetHeader>
-              <SheetDescription>
-                <Link href="/">Home</Link>
-                <Link href="/listing">Listing</Link>
-                <Link href="/about">About Us</Link>
-                <Link href="/contact">Contact Us</Link>
+              <SheetDescription className='flex-col'>
+                <Link href="/" className='hover:text-primary'>Home</Link>
+                <Link href="/listing"  className='hover:text-primary'>Listing</Link>
+                <Link href="/about"  className='hover:text-primary'>About Us</Link>
+                <Link href="/contact"  className='hover:text-primary'>Contact Us</Link>
               </SheetDescription>
-              <SheetFooter>
-                <Button variant="outline" onClick={toggleMenu}>Close</Button>
-              </SheetFooter>
+              
             </SheetContent>
           </Sheet>
         </div>
@@ -67,13 +63,13 @@ function Navbar() {
         <div className="flex items-center gap-2">
           <VscSearch className="mr-4" />
           <button className="flex items-center gap-1 px-4 bg-primary rounded p-2 text-white">
-            Sign in
-            <LiaSignInAltSolid className="text-lg" />
+           <span className='hidden lg:block'> Sign in</span>
+            <LiaSignInAltSolid className="text-xl lg:text-lg" />
           </button>
 
           <button className="flex items-center gap-1 rounded p-2 px-4 text-white bg-primary">
-            <MdOutlineAddCircleOutline className="text-lg" />
-            Add a Listing
+            <MdOutlineAddCircleOutline className="text-xl lg:text-lg" />
+            <span className='hidden lg:block'>Add a Listing</span>
           </button>
         </div>
       </div>
