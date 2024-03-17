@@ -6,8 +6,7 @@ import DriverPage from './DriverDetail/page'
 const HomeLink = () => {
   return (
     <div>
-        <DriverPage/>
-        <About/>
+      <LandingPage/>
     </div>
   )
 }
