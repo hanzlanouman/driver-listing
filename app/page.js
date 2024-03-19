@@ -1,13 +1,18 @@
 
 import React from 'react'
-import LandingPage from '@/components/pages/LandingPage'
-import About from './About/page'
-import DriverPage from './DriverDetail/page'
+import Hero from '@/components/Hero'
+import BestDrivers from '@/components/BestDrivers'
+import Characteristics from '@/components/Characteristics'
+import Banner from '@/components/Banner'
+import StatisticsSection from '@/components/Statistics'
 const HomeLink = () => {
   return (
     <div>
-      <LandingPage/>
-    </div>
+      <Hero />
+      <BestDrivers/>
+      <Characteristics/>
+      <Banner/>
+      <StatisticsSection/>    </div>
   )
 }
 

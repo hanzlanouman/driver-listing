@@ -7,13 +7,13 @@ function Banner() {
       <div className="flex flex-col lg:flex-row items-center justify-center">
         <div className="">
           <Image
-            src="/banner.png"
+            src="/banner2.jpeg"
             alt="banner"
             width={650}
-            height={600}
+            height={550}
             className="
-           lg-w-full  w-[30rem] lg:h-[30rem] h-[20rem] hover:scale-105
-            rounded-lg  duration-500 transition-all cursor-pointer"
+           lg-w-full  w-[30rem] lg:h-[30rem] p-10 h-[20rem] hover:scale-105
+              duration-500 transition-all cursor-pointer"
           />
         </div>
         <div className="space-y-4 p-12 flex flex-col ">
