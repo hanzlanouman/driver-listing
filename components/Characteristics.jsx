@@ -26,7 +26,7 @@ function Characteristics() {
         {characteristicsInfo.map((info, index) => (
           <div key={index} className="w-full lg:w-[400px] min-h-[300px]">
             <div className='flex flex-col items-center justify-center p-6 gap-4'>
-              <div className='relative h-[7rem] w-[7rem] p-2 hover:animate-spin'>
+              <div className='relative h-[7rem] w-[7rem] p-2 hover-spin-once'>
                 <Image src={info.icon} alt={info.title} layout="fill" objectFit="contain" className="absolute inset-0"/>
               </div>
               <h1 className='text-2xl font-bold'>{info.title}</h1>

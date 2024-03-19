@@ -1,8 +1,11 @@
 'use client';
 import FilterMenu from '@/components/FilterMenu';
 import React, { useState } from 'react';
-import DoctorCard from '@/components/DriverCard';
+import DriverCard from '@/components/DriverCard';
 const Page = ({ searchParams }) => {
+  console.log(
+    searchParams
+  )
   const drivers = [
     // name, gender, age, experience, location, reviews, expertise
     {
