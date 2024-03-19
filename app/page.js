@@ -16,4 +16,4 @@ const HomeLink = () => {
   )
 }
 
-export default HomeLink
+export default HomeLink;
