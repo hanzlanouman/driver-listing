@@ -1,47 +1,40 @@
-'use client';
+'use client'
 import React, { useState, useEffect, useRef } from 'react';
 
-// Custom hook for counting animation
-const useCounter = (start, end, duration = 2000, isVisible) => {
+const useCounter = (start, end, duration, isVisible) => {
   const [count, setCount] = useState(start);
-  const step = (end - start) / (duration / 10);
-
   useEffect(() => {
-    let interval;
-    if (isVisible) {
-      let current = start;
-      interval = setInterval(() => {
-        current += step;
-        setCount(Math.floor(current));
-        if (current >= end) {
-          setCount(end);
-          clearInterval(interval);
-        }
-      }, 10);
-    }
+    if (!isVisible) return;
+    const totalSteps = Math.ceil(duration / 10);
+    const stepIncrement = (end - start) / totalSteps;
+    let current = start;
 
-    return () => clearInterval(interval);
-  }, [start, end, duration, step, isVisible]);
+    const timer = setInterval(() => {
+      current += stepIncrement;
+      setCount(Math.min(Math.floor(current), end));
+      if (current >= end) {
+        clearInterval(timer);
+      }
+    }, 10);
+
+    return () => clearInterval(timer);
+  }, [isVisible, start, end, duration]);
 
   return count;
 };
 
 const StatisticsSection = () => {
+  const ref = useRef();
   const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef(null);
-
-  const businessListings = useCounter(0, 59000, 2000, isVisible);
-  const verifiedUsers = useCounter(0, 23000, 2000, isVisible);
-  const newUsersPerMonth = useCounter(0, 5000, 2000, isVisible);
-  const visitorsPerMonth = useCounter(0, 42000, 2000, isVisible);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.5 } // Trigger when at least 50% of the element is in view
-    );
+    const observer = new IntersectionObserver(entries => {
+      const [entry] = entries;
+      if (entry.isIntersecting) {
+        setIsVisible(true);
+        observer.unobserve(ref.current);
+      }
+    }, { threshold: 0.5 });
 
     if (ref.current) {
       observer.observe(ref.current);
@@ -49,14 +42,17 @@ const StatisticsSection = () => {
 
     return () => {
       if (ref.current) {
-        observer.unobserve(ref.current);
+        observer.disconnect();
       }
     };
-  }, [ref]);
+  }, []);
 
-  const formatNumber = (num) => {
-    return num >= 1000 ? (num / 1000).toFixed(1) + 'K' : num.toString();
-  };
+  const formatNumber = num => num >= 1000 ? `${(num / 1000).toFixed(1)}K` : num.toString();
+
+  const businessListings = useCounter(0, 59000, 1000, isVisible);
+  const verifiedUsers = useCounter(0, 23000, 1000, isVisible);
+  const newUsersPerMonth = useCounter(0, 5000, 1000, isVisible);
+  const visitorsPerMonth = useCounter(0, 42000, 1000, isVisible);
 
   return (
     <div ref={ref} className="container mx-auto py-16 text-white">

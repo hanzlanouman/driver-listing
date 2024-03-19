@@ -1,9 +1,7 @@
-import { LocateIcon, PinIcon } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 import { RiStackFill, RiStarFill, RiUserLocationLine } from 'react-icons/ri';
-
-const DoctorCard = ({ driver ={} }) => {
+const DriverCard = ({ driver ={} }) => {
   const { name, gender, age, experience, location, reviews, expertise, image } =
     driver;
   return (
@@ -69,4 +67,5 @@ const DoctorCard = ({ driver ={} }) => {
   );
 };
 
-export default DoctorCard;
+export default DriverCard;
+

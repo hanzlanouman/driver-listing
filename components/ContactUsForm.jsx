@@ -24,7 +24,7 @@ const contactInfo = [
   },
 ];
 
-function contactUsForm() {
+function ContactUsForm() {
   return (
     <div className="container mx-auto flex flex-col gap-8 px-4 py-10 md:flex-row md:gap-16 lg:px-20">
       <div className="flex flex-col gap-4 max-w-full md:max-w-[40%]">
@@ -82,4 +82,4 @@ function contactUsForm() {
   );
 }
 
-export default contactUsForm;
+export default ContactUsForm;

@@ -1,41 +1,39 @@
-import React from "react";
-
-import { UisStar } from "@iconscout/react-unicons-solid";
-import {
-  UilBookmarkFull,
-  UilShare,
-  UilFavorite,
-} from "@iconscout/react-unicons";
-import { UisCheckCircle } from "@iconscout/react-unicons-solid";
-
-const HeroDriver = () => {
+// components/HeroDriver.js
+import React from 'react';
+import { UisStar } from '@iconscout/react-unicons-solid';
+import { UilBookmarkFull, UilShare, UilFavorite } from '@iconscout/react-unicons';
+import { UisCheckCircle } from '@iconscout/react-unicons-solid';
+import Image from 'next/image';
+const HeroDriver = ({ driver }) => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 ">
       <div className="flex flex-col md:flex-row items-center justify-between bg-white rounded-md  p-4 md:p-10">
         <div className="mb-2 md:mb-0 ">
-          <img
-            src="../assets/d1.jpg"
+          <Image
+            src={driver.image}
+            width={300}
+            height={200}
             alt="driver"
             className="w-[300px] h-[200px] rounded-lg"
           />
         </div>
 
         <div className="md:w-1/2 md:mr-4">
-          <h1 className="text-2xl font-bold mb-2 md:mb-4">John Doe</h1>
+          <h1 className="text-2xl font-bold mb-2 md:mb-4">{driver.name}</h1>
 
           <div className="mb-2 md:mb-4">
-            <p>Dental & Medicine</p>
-            <p>Male | Age 32</p>
+            <p>{driver.specialty}</p>
+            <p>{driver.gender} | Age {driver.age}</p>
             <p className="flex items-center">
-              <span className="mr-1">5.0</span>
-              {[...Array(5)].map((_, index) => (
+              <span className="mr-1">{driver.rating}.0</span>
+              {[...Array(driver.rating)].map((_, index) => (
                 <UisStar key={index} className="h-10 w-5 text-pink-500" />
               ))}
             </p>
 
             <p className="text-lg flex items-center">
               <UisCheckCircle className="h-10 w-5 mr-1 text-pink-500" />
-              Accepting new clients
+              {driver.acceptingClients ? 'Accepting new clients' : 'Not accepting new clients'}
             </p>
           </div>
         </div>

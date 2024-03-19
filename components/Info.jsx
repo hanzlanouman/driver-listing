@@ -7,10 +7,11 @@ import {
 import FormsD from "./Forms";
 import { UisStar } from "@iconscout/react-unicons-solid";
 
-const Info = () => {
+const Info = ({ detail }) => {
   return (
     <div className="max-w-7xl mx-auto px-2 py-8 grid md:grid-cols-2 gap-60">
-  
+        <HeroDriver driver={detail.driver} />
+
       {/* div 1 */}
       <div className="flex flex-wrap gap-2 md:flex-col md:w-[880px]">
         <div className="mb-6 bg-white p-6 md:p-8 shadow-md rounded-sm w-full">

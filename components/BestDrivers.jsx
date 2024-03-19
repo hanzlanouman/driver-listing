@@ -1,5 +1,6 @@
 import React from 'react'
-import DoctorCard from './DriverCard'
+import DriverCard from './DriverCard'
+import TabsComponent from './TabsComponent'
 
 const DriversNear = [
     {
@@ -59,14 +60,10 @@ const DriversNear = [
 ]
 function BestDrivers() {
   return (
-    <div className='bg-secondary p-10'>
+    <div className='bg-secondary p-10 flex flex-col items-center justify-center'>
     <h1 className='text-3xl font-bold text-center mt-10'>Best Drivers Near You</h1>
-
-        <div className='container p-10 flex flex-wrap gap-10 items-center justify-center gap-y-8'>
-        {DriversNear.map((driver, index) => (
-                <DoctorCard key={index} driver={driver} />
-              ))}
-              </div>
+    <TabsComponent/>
+        
     </div>
   )
 }

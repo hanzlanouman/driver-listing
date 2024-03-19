@@ -1,11 +1,12 @@
-import ContactUs from '@/components/pages/ContactUs'
 import React from 'react'
-
+import Contactsplash from '@/components/Contactsplash'
+import ContactUsForm from '@/components/ContactUsForm'
 function page() {
   return (
     <div>
-        <ContactUs />
-    </div>
+   <Contactsplash/>
+    <ContactUsForm/>
+        </div>
   )
 }
 
