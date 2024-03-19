@@ -6,15 +6,15 @@ import DoctorCard from '../DriverCard';
 import BestDrivers from '../BestDrivers';
 import Characteristics from '../Characteristics';
 import Banner from '../Banner';
-import StatisticsSection from '@/app/About/Statistics';
+import StatisticsSection from '../ui/About/Statistics';
 function LandingPage() {
   return (
     <div>
       <Hero />
-      <BestDrivers/>
-      <Characteristics/>
-      <Banner/>
-      <StatisticsSection/>
+      <BestDrivers />
+      <Characteristics />
+      <Banner />
+      <StatisticsSection />
     </div>
   );
 }
