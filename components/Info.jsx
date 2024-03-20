@@ -9,7 +9,7 @@ import { UisStar } from "@iconscout/react-unicons-solid";
 
 const Info = () => {
   return (
-    <div className="mx-auto px-2 py-8 grid md:grid-cols-1 xl:grid-cols-2 xl:gap-60">
+    <div className="max-w-7xl mx-auto px-2 py-8 grid md:grid-cols-1 xl:grid-cols-2  xl:gap-60">
 
       {/* div 1 */}
       <div className="flex flex-wrap gap-2 md:flex-col  lg:w-full xl:w-[880px]">
@@ -59,7 +59,7 @@ const Info = () => {
         <div className="mb-6 mt-4 bg-white p-6 rounded-sm shadow-md w-full">
           <div className="flex justify-between items-center gap-4 mb-4">
             <p className="text-2xl font-semibold">Reviews</p>
-            <button className="text-white bg-primary text-sm px-2 py-1 lg:px-4 lg:py-2 flex items-center">
+            <button className="text-white bg-primary px-2 py-1 lg:px-4 lg:py-2 flex items-center">
               <UisStar className="h-5 w-5 mr-1 text-secondary" />
               Write your review
             </button>
