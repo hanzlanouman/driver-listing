@@ -56,22 +56,22 @@ const StatisticsSection = () => {
 
   return (
     <div ref={ref} className="container mx-auto py-16 text-white">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4  gap-4">
         <div className="flex flex-col items-center">
-          <p className="text-4xl font-bold text-primary">{formatNumber(businessListings)}</p>
-          <p className="text-gray-400">Business Listings</p>
+          <p className="text-2xl lg:text-4xl font-bold text-primary">{formatNumber(businessListings)}</p>
+          <p className="text-gray-400 text-sm text-center lg:text-lg">Business Listings</p>
         </div>
         <div className="flex flex-col items-center">
-          <p className="text-4xl font-bold text-primary">{formatNumber(verifiedUsers)}+</p>
-          <p className="text-gray-400">Verified Users</p>
+          <p className="text-2xl lg:text-4xl  font-bold text-primary">{formatNumber(verifiedUsers)}+</p>
+          <p className="text-gray-400 text-sm lg:text-lg">Verified Users</p>
         </div>
         <div className="flex flex-col items-center">
-          <p className="text-4xl font-bold text-primary">{formatNumber(newUsersPerMonth)}+</p>
-          <p className="text-gray-400">New Users per Month</p>
+          <p className="text-2xl lg:text-4xl font-bold text-primary">{formatNumber(newUsersPerMonth)}+</p>
+          <p className="text-gray-400 text-center text-sm lg:text-lg">New Users per Month</p>
         </div>
         <div className="flex flex-col items-center">
-          <p className="text-4xl font-bold text-primary">{formatNumber(visitorsPerMonth)}+</p>
-          <p className="text-gray-400">Visitors per Month</p>
+          <p className="text-2xl lg:text-4xl  font-bold text-primary">{formatNumber(visitorsPerMonth)}+</p>
+          <p className="text-gray-400 text-sm lg:text-lg">Visitors per Month</p>
         </div>
       </div>
     </div>

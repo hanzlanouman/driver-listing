@@ -13,7 +13,7 @@ import { FaGooglePlay } from "react-icons/fa";
 function Footer() {
   return (
     <div>
-      <div className="mt-10 h-full bg-gray-800 p-32">
+      <div className=" h-full bg-gray-800 p-32">
         <div className="flex justify-center flex-col lg:flex-row gap-20">
           <div className="flex flex-col gap-8">
             <h1 className="text-white text-xl font-bold">Company</h1>

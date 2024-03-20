@@ -9,7 +9,7 @@ import { UisStar } from "@iconscout/react-unicons-solid";
 
 const Info = () => {
   return (
-    <div className="max-w-7xl mx-auto px-2 py-8 grid md:grid-cols-1 xl:grid-cols-2  xl:gap-60">
+    <div className="mx-auto px-2 py-8 grid md:grid-cols-1 xl:grid-cols-2 xl:gap-60">
 
       {/* div 1 */}
       <div className="flex flex-wrap gap-2 md:flex-col  lg:w-full xl:w-[880px]">
