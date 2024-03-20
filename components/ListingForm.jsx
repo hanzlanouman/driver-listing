@@ -20,7 +20,7 @@ const ListingSchema = Yup.object().shape({
   publicLiability: Yup.string().required('Required'),
 });
 
-export default function ListingForm() {
+export default function ListingForm({ submitForm, back }) {
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -40,6 +40,9 @@ export default function ListingForm() {
     validationSchema: ListingSchema,
     onSubmit: (values) => {
       console.log('Listing information:', values);
+      // Dont Clear the form
+      submitForm(values);
+
       // Proceed to the next step or handle the listing submission
     },
   });
@@ -364,12 +367,20 @@ export default function ListingForm() {
             </div>
           </div>
 
-          <Button
-            type='submit'
-            className='btn btn-primary w-full uppercase font-bold'
-          >
-            Proceed
-          </Button>
+          <div className='flex gap-8'>
+            <Button
+              onClick={back}
+              className='btn btn-secondary w-full uppercase font-bold'
+            >
+              Back
+            </Button>
+            <Button
+              type='submit'
+              className='btn btn-primary w-full uppercase font-bold'
+            >
+              Proceed
+            </Button>
+          </div>
         </form>
       </div>
     </div>

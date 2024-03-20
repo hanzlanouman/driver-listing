@@ -3,9 +3,7 @@ import FilterMenu from '@/components/FilterMenu';
 import React, { useState } from 'react';
 import DriverCard from '@/components/DriverCard';
 const Page = ({ searchParams }) => {
-  console.log(
-    searchParams
-  )
+  console.log(searchParams);
   const drivers = [
     // name, gender, age, experience, location, reviews, expertise
     {
@@ -124,7 +122,7 @@ const Page = ({ searchParams }) => {
           <div className='w-full lg:w-3/4 lg:justify-start justify-center px-8 lg:px-0'>
             <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-8'>
               {filteredDrivers.map((driver, index) => (
-                <DoctorCard key={index} driver={driver} />
+                <DriverCard key={index} driver={driver} />
               ))}
             </div>
           </div>
