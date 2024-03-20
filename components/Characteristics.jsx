@@ -29,7 +29,7 @@ function Characteristics() {
               <div className='relative h-[7rem] w-[7rem] p-2 hover-spin-once'>
                 <Image src={info.icon} alt={info.title} layout="fill" objectFit="contain" className="absolute inset-0"/>
               </div>
-              <h1 className='text-2xl font-bold'>{info.title}</h1>
+              <h1 className='text-2xl text-center font-bold'>{info.title}</h1>
               <p className='text-center text-lg'>{info.description}</p>
             </div>
           </div>

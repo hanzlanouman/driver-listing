@@ -1,9 +1,9 @@
 import React from "react";
 const FormsD = () => {
   return (
-    <div>
+    <div className="flex xl:flex-col flex-col lg:flex-row md:flex-row md:items-start gap-2 md:gap-10 xl:gap-0  md:justify-start">
       {/* book driver form  */}
-      <div className="mb-8 bg-white p-8 rounded-sm shadow-md w-full md:w-1/3">
+      <div className="mb-8  bg-white p-8 rounded-sm shadow-md w-[300px] md:w-full ">
         <h2 className="text-2xl font-semibold mb-4">Book Driver</h2>
         <hr className="mb-2 border-b-2 border-gray-200" />
 
@@ -53,7 +53,7 @@ const FormsD = () => {
         </form>
       </div>
       {/* search */}
-      <div className="mb-4 bg-white p-4 md:p-6 rounded-sm shadow-md  w-full md:w-1/3">
+      <div className="mb-4 bg-white p-8 md:p-6 rounded-sm shadow-md  w-full ">
         <h1 className="text-2xl font-semibold mb-2">Search</h1>
         <hr className="mb-2 border-b-2 border-gray-200" />
         <form className="space-y-4">

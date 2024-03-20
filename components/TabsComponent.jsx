@@ -105,7 +105,7 @@ function TabsComponent() {
           </TabsTrigger>
         </TabsList>
         <TabsContent value='Location'>
-          <div className='container  p-4 grid grid-cols-3 gap-10 items-center justify-center gap-y-8'>
+          <div className='container  p-4 grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-2 gap-10 items-center justify-center gap-y-8'>
             {DriversNear.map((driver, index) => (
               <DriverCard key={index} driver={driver} />
             ))}

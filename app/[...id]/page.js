@@ -27,11 +27,12 @@ import DoctorCard from '@/components/DriverCard';
 import { details } from '../data';
 export async function getStaticPaths() {
   const paths = details.map((driver) => ({
-    params: { id: details.id.toString() },
+    params: { id: [driver.id.toString()] }, // Wrap the id in an array
   }));
 
   return { paths, fallback: false };
 }
+
 
 export async function getDetail({ params }) {
   const driver = details.find((driver) => driver.id.toString() === params.id);

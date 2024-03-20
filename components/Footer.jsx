@@ -53,25 +53,25 @@ function Footer() {
             />
             {/* social links */}
 
-            <div className="flex items-center gap-2 ">
-              <div className=" bg-slate-600 rounded-full hover:bg-primary duration-500 cursor-pointer p-3">
-                <FiFacebook className="text-white   text-2xl" />
+            <div className="flex items-center lg:justify-start justify-center gap-2 ">
+              <div className=" bg-slate-600 rounded-full hover:bg-primary duration-500 cursor-pointer p-2 lg:p-3">
+                <FiFacebook className="text-white text-lg lg:text-2xl" />
               </div>
-              <div className=" bg-slate-600 rounded-full hover:bg-primary duration-500 cursor-pointer p-3">
+              <div className=" bg-slate-600 rounded-full hover:bg-primary duration-500 cursor-pointer p-2 lg:p-3">
                 {" "}
-                <FiTwitter className="text-white text-2xl" />
+                <FiTwitter className="text-white text-lg lg:text-2xl" />
               </div>
-              <div className=" bg-slate-600 rounded-full hover:bg-primary duration-500 cursor-pointer p-3">
+              <div className=" bg-slate-600 rounded-full hover:bg-primary duration-500 cursor-pointer p-2 lg:p-3">
                 {" "}
-                <FiLinkedin className="text-white  text-2xl" />
+                <FiLinkedin className="text-white  text-lg lg:text-2xl" />
               </div>
-              <div className=" bg-slate-600 rounded-full hover:bg-primary duration-500 cursor-pointer p-3">
+              <div className=" bg-slate-600 rounded-full hover:bg-primary duration-500 cursor-pointer p-2 lg:p-3">
                 {" "}
-                <FiYoutube className="text-white  text-2xl" />
+                <FiYoutube className="text-white text-lg lg:text-2xl" />
               </div>
-              <div className=" bg-slate-600 rounded-full hover:bg-primary duration-500 cursor-pointer p-3">
+              <div className=" bg-slate-600 rounded-full hover:bg-primary duration-500 cursor-pointer p-2 lg:p-3">
                 {" "}
-                <FiInstagram className="text-white  text-2xl" />
+                <FiInstagram className="text-white text-lg lg:text-2xl" />
               </div>
             </div>
           </div>
