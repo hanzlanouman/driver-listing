@@ -4,14 +4,17 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Button } from './ui/button';
 import { useAuth } from './AuthContext';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 const loginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
   password: Yup.string().required('Required'),
 });
 
-const LoginForm = ({ onLoginSuccess }) => {
-  const { login } = useAuth();
+const LoginForm = () => {
+  const { login, authState } = useAuth();
+  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -21,16 +24,19 @@ const LoginForm = ({ onLoginSuccess }) => {
     // Inside the onSubmit function in LoginForm.jsx
     onSubmit: async (values) => {
       try {
-        const response = await fetch('http://localhost:1337/api/auth/local', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            identifier: values.email,
-            password: values.password,
-          }),
-        });
+        const response = await fetch(
+          'https://light-flower-42a8173279.strapiapp.com/api/auth/local',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              identifier: values.email,
+              password: values.password,
+            }),
+          }
+        );
 
         if (!response.ok) {
           throw new Error('Login failed');
@@ -43,14 +49,19 @@ const LoginForm = ({ onLoginSuccess }) => {
         localStorage.setItem('user', JSON.stringify(user));
         // Call a callback function to handle successful login
         // onLoginSuccess(jwt, user);
-        console.log(data);
+
         login(data.jwt, data.user);
+        toast.success('Login successful');
       } catch (error) {
         // Handle login error (e.g., show an error message)
         console.error('Login error:', error.message);
       }
     },
   });
+
+  if (authState.jwt) {
+    router.push('/');
+  }
 
   return (
     <div className='flex items-center justify-center min-h-screen bg-gray-100'>

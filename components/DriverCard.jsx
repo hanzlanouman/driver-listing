@@ -1,41 +1,42 @@
 import Image from 'next/image';
 import React from 'react';
-import { RiStarFill, RiUserLocationLine } from 'react-icons/ri';
+import { RiStarFill } from 'react-icons/ri';
 import Link from 'next/link';
 
-const DriverCard = ({ driver = {} }) => {
+const DriverCard = ({
+  driver = {
+    id: 1,
+    attributes: {
+      name: '',
+      typeOfVehicle: '',
+      yearsInBusiness: '',
+      operationArea: '',
+    },
+  },
+}) => {
   const {
     id,
-    name,
-    typeOfVehicle,
-    imagesOfVehicles,
-    yearsInBusiness,
-    location,
-    reviews,
+    attributes: {
+      name,
+      typeOfVehicle,
+      yearsInBusiness,
+      operationArea,
+      // Add more fields if needed
+    },
   } = driver;
 
   return (
-    <Link href={`/details/${id ? id : 2}`} passHref>
+    <Link href={`/details/${id}`} passHref>
       <div className='min-h-[430px] max-w-[24rem] shadow-lg rounded overflow-hidden bg-white flex flex-col justify-between hover:shadow-xl transition duration-300 ease-in-out cursor-pointer'>
-        {/* Images of vehicles */}
+        {/* Image placeholder */}
         <div className='relative w-full overflow-hidden'>
-          {imagesOfVehicles && imagesOfVehicles.length > 0 ? (
-            <Image
-              src={imagesOfVehicles[0]}
-              width={340}
-              height={296}
-              alt='Vehicle'
-              className='w-full object-cover hover:scale-105 transition duration-300 ease-in-out'
-            />
-          ) : (
-            <Image
-              src='/driver-1.webp'
-              width={340}
-              height={296}
-              alt='Vehicle'
-              className='w-full object-cover hover:scale-105 transition duration-300 ease-in-out'
-            />
-          )}
+          <Image
+            src='/driver-1.webp'
+            width={340}
+            height={296}
+            alt='Vehicle'
+            className='w-full object-cover hover:scale-105 transition duration-300 ease-in-out'
+          />
         </div>
 
         {/* Driver Details */}
@@ -48,8 +49,8 @@ const DriverCard = ({ driver = {} }) => {
             <p className='text-gray-500 text-sm'>
               Years in Business: {yearsInBusiness || 'N/A'}
             </p>
-            <p className='text-gray-500 text-sm flex items-center gap-2'>
-              Operation Area: {location || 'Location'}
+            <p className='text-gray-500 text-sm'>
+              Operation Area: {operationArea || 'Location'}
             </p>
           </div>
           <div className='border-t pt-3 mt-3'>
@@ -64,9 +65,8 @@ const DriverCard = ({ driver = {} }) => {
                     <RiStarFill />
                   </div>
                 </div>
-                <p className='text-gray-500 text-sm'>
-                  {reviews || '0'} Reviews
-                </p>
+                <p className='text-gray-500 text-sm'>0 Reviews</p>{' '}
+                {/* Update this if reviews data is available */}
               </div>
               <button className='text-blue-400 font-bold px-4 py-2 rounded hover:bg-blue-100'>
                 Book Now

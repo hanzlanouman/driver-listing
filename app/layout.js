@@ -3,6 +3,7 @@ import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { AuthProvider } from '@/components/AuthContext';
+import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,6 +21,16 @@ export default function RootLayout({ children }) {
           {children}
           <Footer />
         </AuthProvider>
+        <Toaster
+          position='bottom-right'
+          toastOptions={{
+            duration: 7000,
+            style: {
+              background: '#363636',
+              color: '#fff',
+            },
+          }}
+        />
       </body>
     </html>
   );

@@ -2,7 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { VscSearch } from 'react-icons/vsc';
-import SearchComponent from './search';
+import SearchComponent from './SearchComponent';
 import { useAuth } from './AuthContext';
 
 function Hero() {
@@ -34,6 +34,5 @@ function Hero() {
     </div>
   );
 }
-
 
 export default Hero;

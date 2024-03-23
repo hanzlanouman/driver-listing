@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import DriverCard from './DriverCard';
 
-function TabsComponent() {
+function TabsComponent({ listings }) {
   const [activeTab, setActiveTab] = useState('Location');
   const indicatorRef = useRef(null);
   const tabsRef = useRef([]);
@@ -106,7 +106,7 @@ function TabsComponent() {
         </TabsList>
         <TabsContent value='Location'>
           <div className='container  p-4 grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-2 gap-10 items-center justify-center gap-y-8'>
-            {DriversNear.map((driver, index) => (
+            {listings.map((driver, index) => (
               <DriverCard key={index} driver={driver} />
             ))}
           </div>

@@ -28,7 +28,6 @@ export default function SignupForm({ submitForm }) {
     },
     validationSchema: SignupSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
       submitForm(values);
 
       // Proceed to the next step or handle the signup logic

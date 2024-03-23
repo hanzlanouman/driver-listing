@@ -14,8 +14,10 @@ import {
   SheetDescription,
   SheetClose,
 } from '@/components/ui/sheet';
-import SearchComponent from './Search';
+import SearchComponent from './SearchComponent';
 import { useRouter } from 'next/navigation';
+import { useAuth } from './AuthContext';
+import { DoorClosed } from 'lucide-react';
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -29,11 +31,18 @@ function Navbar() {
   };
 
   const router = useRouter();
+  const { authState, logout } = useAuth();
+  console.log(authState);
 
   return (
     <div className='bg-white shadow-md px-4'>
       <div className='flex justify-between items-center px-4 py-2 md:py-4'>
-        <div>
+        <div
+          onClick={() => {
+            router.push('/');
+          }}
+          className='cursor-pointer'
+        >
           <h1 className='text-2xl font-bold text-primary'>Driver Listing</h1>
         </div>
         <div className='md:hidden'>
@@ -100,24 +109,48 @@ function Navbar() {
               <SheetClose onClick={toggleSearch}>Close</SheetClose>
             </SheetContent>
           </Sheet>
-          <button
-            className='flex items-center gap-1 px-4 bg-primary rounded p-2 text-white'
-            onClick={() => {
-              router.push('/login');
-            }}
-          >
-            <span className='hidden lg:block'>Sign in</span>
-            <LiaSignInAltSolid className='text-xl lg:text-lg' />
-          </button>
-          <button
-            className='flex items-center gap-1 rounded p-2 px-4 text-white bg-primary'
-            onClick={() => {
-              router.push('/signup');
-            }}
-          >
-            <MdOutlineAddCircleOutline className='text-xl lg:text-lg' />
-            <span className='hidden lg:block'>Add a Listing</span>
-          </button>
+          {!authState.jwt ? (
+            <button
+              className='flex items-center gap-1 px-4 bg-primary rounded p-2 text-white'
+              onClick={() => {
+                router.push('/login');
+              }}
+            >
+              <span className='hidden lg:block'>Sign in</span>
+              <LiaSignInAltSolid className='text-xl lg:text-lg' />
+            </button>
+          ) : (
+            <button
+              className='flex items-center gap-1 px-4 bg-primary rounded p-2 text-white'
+              onClick={() => {
+                router.push(`/viewlisting/${authState.user.id}`);
+              }}
+            >
+              <span className='hidden lg:block'>View Listing</span>
+              <LiaSignInAltSolid className='text-xl lg:text-lg' />
+            </button>
+          )}
+          {!authState.jwt ? (
+            <button
+              className='flex items-center gap-1 px-4 bg-primary rounded p-2 text-white'
+              onClick={() => {
+                router.push('/signup');
+              }}
+            >
+              <span className='hidden lg:block'>Add Listing</span>
+              <MdOutlineAddCircleOutline className='text-xl lg:text-lg' />
+            </button>
+          ) : (
+            <button
+              className='flex items-center gap-1 rounded p-2 px-4 text-white bg-red-500'
+              onClick={() => {
+                logout();
+              }}
+            >
+              <DoorClosed className='text-xl lg:text-lg' />
+              <span className='hidden lg:block'>Logout</span>
+            </button>
+          )}
         </div>
       </div>
     </div>

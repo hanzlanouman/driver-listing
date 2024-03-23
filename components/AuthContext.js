@@ -5,8 +5,8 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState({
-    jwt: null,
-    user: null,
+    jwt: localStorage.getItem('token'),
+    user: JSON.parse(localStorage.getItem('user')),
   });
 
   const login = (jwt, user) => {
