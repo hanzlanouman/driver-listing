@@ -11,7 +11,6 @@ const fetchDriver = async (id) => {
 
 const DriverPage = async ({ params }) => {
   const driver = await fetchDriver(params.id[0]);
-  console.log(driver);
 
   return (
     <div className='bg-gray-100'>
