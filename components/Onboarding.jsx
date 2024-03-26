@@ -4,13 +4,83 @@ import { useState } from 'react';
 import SignupForm from './SignupForm';
 import ListingForm from './ListingForm';
 import { useAuth } from './AuthContext';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import DocumentInput from './DocumentInput';
+import { uploadImage } from '@/utils/helper';
 
 const Onboarding = () => {
+  const router = useRouter();
   const { login } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({});
   const [signUpData, setSignUpData] = useState({});
   const [listingData, setListingData] = useState({});
+
+  const [documentData, setDocumentData] = useState({});
+
+  const handleDocumentSubmit = async (documents) => {
+    try {
+      // Upload documents to Cloudinary
+      const onedoc = await uploadImage(documents.driverLicenseFront);
+      console.log(onedoc);
+      const uploadedDocuments = await Promise.all([
+        uploadImage(documents.driverLicenseFront),
+        uploadImage(documents.driverLicenseBack),
+        uploadImage(documents.permit),
+      ]);
+
+      console.log(uploadedDocuments);
+      // Store the URLs of the uploaded documents
+      const documentUrls = {
+        driverLicenseFrontUrl: uploadedDocuments[0].url,
+        driverLicenseBackUrl: uploadedDocuments[1].url,
+        permitUrl: uploadedDocuments[2].url,
+      };
+
+      // Create the listing with the uploaded document URLs
+      const userRes = await registerUser(signUpData);
+      if (userRes.error) {
+        console.log('User registration failed:', userRes.error.message);
+        toast.error(`${userRes.error.message}`);
+        return;
+      }
+
+      const listingResponse = await fetch(
+        // 'http://localhost:1337/api/listings',
+        `https://light-flower-42a8173279.strapiapp.com/api/listings`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userRes.jwt}`, // Assuming the JWT token is needed for authorization
+          },
+          body: JSON.stringify({
+            data: {
+              ...listingData,
+              ...documentUrls,
+              user: userRes.user.id, // Directly link the listing to the user using the user's ID
+            },
+          }),
+        }
+      );
+
+      if (listingResponse.error) {
+        toast.error('Failed to create listing');
+        throw new Error(error.message || 'Failed to create listing');
+      }
+
+      const listing = await listingResponse.json();
+      toast.success('User registered and listing created successfully!');
+      console.log('Listing created:', listing);
+
+      // Redirect to the newly created listing page
+      router.push(`/details/${listing.data.id}`);
+    } catch (error) {
+      console.error('Error creating listing:', error);
+      toast.error(`Error: ${error}`);
+    }
+  };
 
   const handleSignupSubmit = async (signupData) => {
     setFormData({ ...formData, ...signupData });
@@ -20,57 +90,29 @@ const Onboarding = () => {
   };
 
   const handleListingSubmit = async (listingData) => {
+    // Register the user first
     setListingData(listingData);
-    const res = await registerUser(signUpData);
-    console.log(res.user.id);
-    console.log('LISTING DATA', listingData);
-    console.log(res);
-    if (res) {
-      try {
-        const response = await fetch('http://localhost:1337/api/listings', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${res.jwt}`, // Use the JWT token for authorization
-          },
-          body: JSON.stringify({
-            data: {
-              ...listingData,
-              user: {
-                data: {
-                  id: res.user.id,
-                },
-              }, // Include the user ID
-            },
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Listing creation failed');
-        }
-
-        const data = await response.json();
-        console.log('Listing created:', data);
-        // Proceed with further steps or redirect the user
-      } catch (error) {
-        console.error('Listing submission error:', error);
-      }
-    }
-
-    // Proceed with further processing or submission of completeFormData
+    setCurrentStep(3); // Move to the document upload step
   };
 
   const registerUser = async (userData) => {
-    const STRAPI_BASE_URL = 'http://localhost:1337';
-    const response = await fetch(`${STRAPI_BASE_URL}/api/auth/local/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        username: userData.username,
-        email: userData.email,
-        password: userData.password,
-      }),
-    });
+    console.log(
+      'URLL',
+      `https://light-flower-42a8173279.strapiapp.com/api/auth/local/register`
+    );
+    const response = await fetch(
+      `https://light-flower-42a8173279.strapiapp.com/api/auth/local/register`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: userData.username,
+          email: userData.email,
+          password: userData.password,
+        }),
+        cache: 'no-cache',
+      }
+    );
     console.log(response);
     const data = await response.json();
     return data;
@@ -85,6 +127,7 @@ const Onboarding = () => {
           back={() => setCurrentStep(1)}
         />
       )}
+      {currentStep === 3 && <DocumentInput submitForm={handleDocumentSubmit} />}
     </div>
   );
 };

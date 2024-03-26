@@ -1,13 +1,19 @@
 'use client';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [authState, setAuthState] = useState({
-    jwt: null,
-    user: null,
-  });
+  const [authState, setAuthState] = useState({ jwt: null, user: null });
+
+  useEffect(() => {
+    // Ensure localStorage is accessed only on client-side
+    const jwt = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (jwt && user) {
+      setAuthState({ jwt, user });
+    }
+  }, []);
 
   const login = (jwt, user) => {
     setAuthState({ jwt, user });
