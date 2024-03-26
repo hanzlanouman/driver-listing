@@ -15,9 +15,6 @@ const ListingSchema = Yup.object().shape({
   operationArea: Yup.string().required('Required'),
   mileRadius: Yup.number().required('Required'),
   insurance: Yup.string().required('Required'),
-  license: Yup.string().required('Required'),
-  goodsInTransit: Yup.string().required('Required'),
-  publicLiability: Yup.string().required('Required'),
 });
 
 export default function ListingForm({ submitForm, back }) {
@@ -33,9 +30,6 @@ export default function ListingForm({ submitForm, back }) {
       operationArea: '',
       mileRadius: '',
       insurance: '',
-      license: '',
-      goodsInTransit: '',
-      publicLiability: '',
     },
     validationSchema: ListingSchema,
     onSubmit: (values) => {
@@ -197,6 +191,8 @@ export default function ListingForm({ submitForm, back }) {
                     </p>
                   )}
               </div>
+            </div>
+            <div className='flex flex-col space-y-5 w-full'>
               <div>
                 <label htmlFor='name'>Years In Business</label>
                 <input
@@ -224,8 +220,6 @@ export default function ListingForm({ submitForm, back }) {
                     </p>
                   )}
               </div>
-            </div>
-            <div className='flex flex-col space-y-5 w-full'>
               <div>
                 <label htmlFor='name'>Operation Area</label>
                 <input
@@ -294,75 +288,6 @@ export default function ListingForm({ submitForm, back }) {
                     {formik.errors.insurance}
                   </p>
                 )}
-              </div>
-              <div>
-                <label htmlFor='license'>License</label>
-                <input
-                  name='license'
-                  type='text'
-                  placeholder='License'
-                  value={formik.values.license}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.license && formik.errors.license}
-                  className={
-                    formik.touched.license && formik.errors.license
-                      ? 'shadow-sm bg-gray-50 border border-red-600 text-red-600 text-sm rounded focus:ring-primary-500 focus:border-primary-500 block w-full  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light'
-                      : 'shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-primary-500 focus:border-primary-500 block w-full  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light'
-                  }
-                />
-                {formik.touched.license && formik.errors.license && (
-                  <p className='text-red-500 text-xs '>
-                    {formik.errors.license}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label htmlFor='goodsInTransit'>Goods in Transit</label>
-                <input
-                  name='goodsInTransit'
-                  type='text'
-                  placeholder='Goods in Transit'
-                  value={formik.values.goodsInTransit}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  className={
-                    formik.touched.goodsInTransit &&
-                    formik.errors.goodsInTransit
-                      ? 'shadow-sm bg-gray-50 border border-red-600 text-red-600 text-sm rounded focus:ring-primary-500 focus:border-primary-500 block w-full  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light'
-                      : 'shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-primary-500 focus:border-primary-500 block w-full  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light'
-                  }
-                />
-                {formik.touched.goodsInTransit &&
-                  formik.errors.goodsInTransit && (
-                    <p className='text-red-500 text-xs '>
-                      {formik.errors.goodsInTransit}
-                    </p>
-                  )}
-              </div>
-              <div>
-                <label htmlFor='publicLiability'>Public Liability</label>
-                <input
-                  name='publicLiability'
-                  type='text'
-                  placeholder='Public Liability'
-                  value={formik.values.publicLiability}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  className={
-                    formik.touched.publicLiability &&
-                    formik.errors.publicLiability
-                      ? 'shadow-sm bg-gray-50 border border-red-600 text-red-600 text-sm rounded focus:ring-primary-500 focus:border-primary-500 block w-full  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light'
-                      : 'shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-primary-500 focus:border-primary-500 block w-full  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light'
-                  }
-                />
-                {formik.touched.publicLiability &&
-                  formik.errors.publicLiability && (
-                    <p className='text-red-500 text-xs '>
-                      {formik.errors.publicLiability}
-                    </p>
-                  )}
               </div>
             </div>
           </div>

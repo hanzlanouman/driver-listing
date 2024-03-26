@@ -22,20 +22,18 @@ const Onboarding = () => {
   const handleDocumentSubmit = async (documents) => {
     try {
       // Upload documents to Cloudinary
-      const onedoc = await uploadImage(documents.driverLicenseFront);
-      console.log(onedoc);
       const uploadedDocuments = await Promise.all([
-        uploadImage(documents.driverLicenseFront),
-        uploadImage(documents.driverLicenseBack),
-        uploadImage(documents.permit),
+        uploadImage(documents.driverLicense),
+        uploadImage(documents.goodsInTransit),
+        uploadImage(documents.publicLiability),
       ]);
 
       console.log(uploadedDocuments);
       // Store the URLs of the uploaded documents
       const documentUrls = {
-        driverLicenseFrontUrl: uploadedDocuments[0].url,
-        driverLicenseBackUrl: uploadedDocuments[1].url,
-        permitUrl: uploadedDocuments[2].url,
+        driverLicense: uploadedDocuments[0].url,
+        goodsInTransit: uploadedDocuments[1].url,
+        publicLiability: uploadedDocuments[2].url,
       };
 
       // Create the listing with the uploaded document URLs
@@ -47,7 +45,6 @@ const Onboarding = () => {
       }
 
       const listingResponse = await fetch(
-        // 'http://localhost:1337/api/listings',
         `https://light-flower-42a8173279.strapiapp.com/api/listings`,
         {
           method: 'POST',

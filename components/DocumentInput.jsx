@@ -1,18 +1,19 @@
 import { useState } from 'react';
 
 function DocumentInput({ submitForm }) {
-  const [driverLicenseFront, setDriverLicenseFront] = useState(null);
-  const [driverLicenseBack, setDriverLicenseBack] = useState(null);
-  const [permit, setPermit] = useState(null);
+  const [driverLicense, setDriverLicense] = useState(null);
+  const [publicLiability, setPublicLiability] = useState(null);
+  const [goodsInTransit, setGoodsInTransit] = useState(null);
   const [errors, setErrors] = useState({});
 
   const validateFiles = () => {
     const newErrors = {};
-    if (!driverLicenseFront)
-      newErrors.driverLicenseFront = 'Driver License Front is required';
-    if (!driverLicenseBack)
-      newErrors.driverLicenseBack = 'Driver License Back is required';
-    if (!permit) newErrors.permit = 'Permit is required';
+    if (!driverLicense)
+      newErrors.driverLicense = 'Driver License Front is required';
+    if (!publicLiability)
+      newErrors.publicLiability = 'Driver License Back is required';
+    if (!goodsInTransit)
+      newErrors.goodsInTransit = 'goodsInTransit is required';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -20,7 +21,7 @@ function DocumentInput({ submitForm }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateFiles()) {
-      submitForm({ driverLicenseFront, driverLicenseBack, permit });
+      submitForm({ driverLicense, publicLiability, goodsInTransit });
     }
   };
 
@@ -30,62 +31,64 @@ function DocumentInput({ submitForm }) {
         <form onSubmit={handleSubmit} className='space-y-5'>
           <div>
             <label
-              htmlFor='driverLicenseFront'
+              htmlFor='driverLicense'
               className='block text-sm font-medium text-gray-700'
             >
-              Driver License Front
+              Driver&apos;s License
             </label>
             <input
               type='file'
-              onChange={(e) => setDriverLicenseFront(e.target.files[0])}
+              onChange={(e) => setDriverLicense(e.target.files[0])}
               className={`mt-1 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100 ${
-                errors.driverLicenseFront ? 'border-red-500' : 'border-gray-300'
+                errors.driverLicense ? 'border-red-500' : 'border-gray-300'
               }`}
             />
-            {errors.driverLicenseFront && (
+            {errors.driverLicense && (
               <p className='text-red-500 text-xs mt-1'>
-                {errors.driverLicenseFront}
+                {errors.driverLicense}
               </p>
             )}
           </div>
 
           <div>
             <label
-              htmlFor='driverLicenseBack'
+              htmlFor='publicLiability'
               className='block text-sm font-medium text-gray-700'
             >
-              Driver License Back
+              Public Liability Insurance
             </label>
             <input
               type='file'
-              onChange={(e) => setDriverLicenseBack(e.target.files[0])}
+              onChange={(e) => setPublicLiability(e.target.files[0])}
               className={`mt-1 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100 ${
-                errors.driverLicenseBack ? 'border-red-500' : 'border-gray-300'
+                errors.publicLiability ? 'border-red-500' : 'border-gray-300'
               }`}
             />
-            {errors.driverLicenseBack && (
+            {errors.publicLiability && (
               <p className='text-red-500 text-xs mt-1'>
-                {errors.driverLicenseBack}
+                {errors.publicLiability}
               </p>
             )}
           </div>
 
           <div>
             <label
-              htmlFor='permit'
+              htmlFor='goodsInTransit'
               className='block text-sm font-medium text-gray-700'
             >
-              Permit
+              Goods in Transit
             </label>
             <input
               type='file'
-              onChange={(e) => setPermit(e.target.files[0])}
+              onChange={(e) => setGoodsInTransit(e.target.files[0])}
               className={`mt-1 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100 ${
-                errors.permit ? 'border-red-500' : 'border-gray-300'
+                errors.goodsInTransit ? 'border-red-500' : 'border-gray-300'
               }`}
             />
-            {errors.permit && (
-              <p className='text-red-500 text-xs mt-1'>{errors.permit}</p>
+            {errors.goodsInTransit && (
+              <p className='text-red-500 text-xs mt-1'>
+                {errors.goodsInTransit}
+              </p>
             )}
           </div>
 
