@@ -119,6 +119,16 @@ function Navbar() {
               <span className='hidden lg:block'>Sign in</span>
               <LiaSignInAltSolid className='text-xl lg:text-lg' />
             </button>
+          ) : authState.role === 'admin' ? (
+            <button
+              className='flex items-center gap-1 px-4 bg-green-500 rounded p-2 text-white'
+              onClick={() => {
+                router.push(`/admin`);
+              }}
+            >
+              <span className='hidden lg:block'>Dashboard</span>
+              <LiaSignInAltSolid className='text-xl lg:text-lg' />
+            </button>
           ) : (
             <button
               className='flex items-center gap-1 px-4 bg-primary rounded p-2 text-white'

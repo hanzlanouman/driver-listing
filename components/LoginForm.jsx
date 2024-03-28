@@ -6,6 +6,7 @@ import { Button } from './ui/button';
 import { useAuth } from './AuthContext';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 const loginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -23,35 +24,49 @@ const LoginForm = () => {
     validationSchema: loginSchema,
     // Inside the onSubmit function in LoginForm.jsx
     onSubmit: async (values) => {
-      try {
-        const response = await fetch(
-          'https://light-flower-42a8173279.strapiapp.com/api/auth/local',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              identifier: values.email,
-              password: values.password,
-            }),
-          }
-        );
+      const STRAPI_URL = ' https://light-flower-42a8173279.strapiapp.com';
+      const STRAPI_LOCAL_URL = 'http://localhost:1337';
 
-        if (!response.ok) {
-          throw new Error('Login failed');
-        }
+      try {
+        const response = await fetch(`${STRAPI_LOCAL_URL}/api/auth/local`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            identifier: values.email,
+            password: values.password,
+          }),
+        });
 
         const data = await response.json();
         const { jwt, user } = data;
+        if (!response.ok) {
+          throw new Error('Login failed');
+        } else {
+          const role = await fetch(
+            `${STRAPI_LOCAL_URL}/api/users/me?populate=role`,
+            {
+              method: 'GET',
+              headers: {
+                Authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+
+          const roleData = await role.json();
+
+          // localStorage.setItem('role', data.role.type);
+          login(data.jwt, data.user, roleData.role.type);
+          toast.success('Login successful');
+          if (roleData.role.type === 'admin') {
+            router.push('/admin-dashboard');
+          }
+        }
+
         // Store the token and user information (e.g., in local storage or context)
-        localStorage.setItem('token', jwt);
-        localStorage.setItem('user', JSON.stringify(user));
         // Call a callback function to handle successful login
         // onLoginSuccess(jwt, user);
-
-        login(data.jwt, data.user);
-        toast.success('Login successful');
       } catch (error) {
         // Handle login error (e.g., show an error message)
         console.error('Login error:', error.message);
@@ -60,7 +75,11 @@ const LoginForm = () => {
   });
 
   if (authState.jwt) {
-    router.push('/');
+    if (authState.role === 'admin') {
+      router.push('/admin-dashboard');
+    } else {
+      router.push('/');
+    }
   }
 
   return (

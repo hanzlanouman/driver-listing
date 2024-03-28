@@ -11,6 +11,7 @@ const ListingSchema = Yup.object().shape({
   businessEmail: Yup.string().email('Invalid email').required('Required'),
   businessPhone: Yup.string().required('Required'),
   typeOfVehicle: Yup.string().required('Required'),
+  zipCode: Yup.string().required('Required'),
   yearsInBusiness: Yup.number().required('Required'),
   operationArea: Yup.string().required('Required'),
   mileRadius: Yup.number().required('Required'),
@@ -25,6 +26,7 @@ export default function ListingForm({ submitForm, back }) {
       contact: '',
       businessEmail: '',
       businessPhone: '',
+      zipCode: '',
       typeOfVehicle: '',
       yearsInBusiness: '',
       operationArea: '',
@@ -84,6 +86,28 @@ export default function ListingForm({ submitForm, back }) {
                   error={formik.touched.address && formik.errors.address}
                   className={
                     formik.touched.address && formik.errors.address
+                      ? 'shadow-sm bg-gray-50 border border-red-600 text-red-600 text-sm rounded focus:ring-primary-500 focus:border-primary-500 block w-full  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light'
+                      : 'shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-primary-500 focus:border-primary-500 block w-full  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light'
+                  }
+                />
+                {formik.touched.address && formik.errors.address && (
+                  <p className='text-red-500 text-xs '>
+                    {formik.errors.address}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label htmlFor='name'>Zip Code</label>
+                <input
+                  name='zipcode'
+                  type='text'
+                  placeholder='Zip Code'
+                  value={formik.values.zipCode}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.zipCode && formik.errors.zipCode}
+                  className={
+                    formik.touched.zipCode && formik.errors.zipCode
                       ? 'shadow-sm bg-gray-50 border border-red-600 text-red-600 text-sm rounded focus:ring-primary-500 focus:border-primary-500 block w-full  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light'
                       : 'shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-primary-500 focus:border-primary-500 block w-full  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light'
                   }
