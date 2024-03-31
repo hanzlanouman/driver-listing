@@ -2,6 +2,7 @@ import Image from 'next/image';
 import React from 'react';
 import { RiStarFill } from 'react-icons/ri';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const DriverCard = ({
   driver = {
@@ -24,7 +25,7 @@ const DriverCard = ({
       // Add more fields if needed
     },
   } = driver;
-
+ const router = useRouter();
   return (
     <Link href={`/details/${id}`} passHref>
       <div className='min-h-[430px] max-w-[24rem] shadow-lg rounded overflow-hidden bg-white flex flex-col justify-between hover:shadow-xl transition duration-300 ease-in-out cursor-pointer'>
@@ -32,7 +33,7 @@ const DriverCard = ({
         <div className='relative w-full overflow-hidden'>
           <Image
             src='/driver-1.webp'
-            width={340}
+            width={240}
             height={296}
             alt='Vehicle'
             className='w-full object-cover hover:scale-105 transition duration-300 ease-in-out'
@@ -68,9 +69,14 @@ const DriverCard = ({
                 <p className='text-gray-500 text-sm'>0 Reviews</p>{' '}
                 {/* Update this if reviews data is available */}
               </div>
-              <button className='text-blue-400 font-bold px-4 py-2 rounded hover:bg-blue-100'>
+              <Link href={`/details/${id}`} passHref>
+
+              <button className='text-blue-400 font-bold px-4 py-2 rounded hover:bg-blue-100'
+              >
+              
                 Book Now
               </button>
+              </Link>
             </div>
           </div>
         </div>
