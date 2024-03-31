@@ -3,8 +3,9 @@ import HeroDriver from '@/components/HeroDriver';
 import Info from '@/components/Info';
 
 const fetchDriver = async (id) => {
-  const res = await fetch(`${process.env.STRAPI_CLOUD_URL}/api/listings/${id}`);
+  const res = await fetch(`http://localhost:1337/api/listings/${id}`);
   const data = await res.json();
+  console.log(data);
 
   return data.data;
 };

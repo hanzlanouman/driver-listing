@@ -40,6 +40,7 @@ const LoginForm = () => {
         });
 
         const data = await response.json();
+        console.log('HITTING');
         const { jwt, user } = data;
         if (!response.ok) {
           throw new Error('Login failed');
@@ -60,7 +61,7 @@ const LoginForm = () => {
           login(data.jwt, data.user, roleData.role.type);
           toast.success('Login successful');
           if (roleData.role.type === 'admin') {
-            router.push('/admin-dashboard');
+            router.push('/admin');
           }
         }
 
@@ -69,6 +70,7 @@ const LoginForm = () => {
         // onLoginSuccess(jwt, user);
       } catch (error) {
         // Handle login error (e.g., show an error message)
+        toast.error('Login failed');
         console.error('Login error:', error.message);
       }
     },
@@ -76,7 +78,7 @@ const LoginForm = () => {
 
   if (authState.jwt) {
     if (authState.role === 'admin') {
-      router.push('/admin-dashboard');
+      router.push('/admin');
     } else {
       router.push('/');
     }

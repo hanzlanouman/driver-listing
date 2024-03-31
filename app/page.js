@@ -8,7 +8,7 @@ const HomeLink = async () => {
   const fetchDrivers = async () => {
     // Fetch drivers from the server based on the searchParams
 
-    const res = await fetch(`${process.env.STRAPI_CLOUD_URL}/api/listings`, {
+    const res = await fetch(`${process.env.STRAPI_LOCAL_URL}/api/listings`, {
       cache: 'no-cache',
     });
     const listings = await res.json();

@@ -1,66 +1,108 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { VscSearch } from 'react-icons/vsc';
+import { useLoadScript, Autocomplete } from '@react-google-maps/api';
 import { useRouter } from 'next/navigation';
+
+const libraries = ['places'];
 
 const SearchComponent = ({ bgColor = 'bg-slate-300' }) => {
   const router = useRouter();
-
-  const [searchData, setSearchData] = useState({
-    driver: '',
-    location: '',
-    category: '',
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: 'AIzaSyDOodgDRVDnOGrmzq-6l2ybUFwy7Ws3phA',
+    libraries,
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setSearchData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+  const pickupRef = useRef(null);
+  const destinationRef = useRef(null);
+  const [pickupDetails, setPickupDetails] = useState({});
+  const [destinationDetails, setDestinationDetails] = useState({});
+
+  const handlePlaceChanged = (ref, setDetails) => {
+    const place = ref.current.getPlace();
+
+    // Initialize an object to hold the postal code
+    let postalCode = '';
+
+    // Loop through address_components to find the postal_code
+    place.address_components?.forEach((component) => {
+      if (component.types.includes('postal_code')) {
+        postalCode = component.long_name; // or component.short_name, depending on your need
+      }
+    });
+
+    // Extracting all possible details including the postal code
+    const details = {
+      formattedAddress: place.formatted_address,
+      placeId: place.place_id,
+      types: place.types,
+      url: place.url,
+      vicinity: place.vicinity,
+      coordinates: place.geometry?.location.toJSON(),
+      addressComponents: place.address_components?.reduce(
+        (acc, component) => ({
+          ...acc,
+          [component.types[0]]: {
+            long_name: component.long_name,
+            short_name: component.short_name,
+          },
+        }),
+        {}
+      ),
+      additionalDetails: {
+        phoneNumber: place.formatted_phone_number,
+        internationalPhoneNumber: place.international_phone_number,
+        website: place.website,
+        rating: place.rating,
+        userRatingsTotal: place.user_ratings_total,
+        reviews: place.reviews,
+        openingHours: place.opening_hours?.weekday_text,
+      },
+      postalCode: postalCode, // Including the postal code in the details object
+    };
+
+    setDetails(details);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Filter out empty search parameters
-    const queryParams = Object.entries(searchData)
-      .filter(([key, value]) => value && value.trim() !== '')
-      .map(([key, value]) => `${key}=${encodeURIComponent(value.trim())}`)
-      .join('&');
-
-    // Redirect to the search page with the filtered query parameters
-    router.push(`/listings?${queryParams}`);
+    console.log(pickupDetails, destinationDetails);
+    const pickupDetailsEncoded = encodeURIComponent(
+      JSON.stringify(pickupDetails)
+    );
+    console.log(pickupDetailsEncoded);
+    router.push(`/listings?pickupDetails=${pickupDetailsEncoded}`);
   };
+
+  if (!isLoaded) return <div>Loading...</div>;
 
   return (
     <form
-      className='flex flex-col lg:flex-row items-center justify-center lg:gap-1 gap-3'
       onSubmit={handleSubmit}
+      className='flex flex-col lg:flex-row items-center justify-center lg:gap-1 gap-3'
     >
-      <input
-        type='text'
-        name='driver'
-        placeholder='Search driver'
-        className={`p-3 rounded w-48 ${bgColor}`}
-        value={searchData.driver}
-        onChange={handleChange}
-      />
-      <input
-        type='text'
-        name='location'
-        placeholder='Enter Your Location '
-        className={`p-3 rounded w-48 ${bgColor}`}
-        value={searchData.location}
-        onChange={handleChange}
-      />
-      <input
-        type='text'
-        name='category'
-        placeholder='Select a category'
-        className={`p-3 rounded w-48 ${bgColor}`}
-        value={searchData.category}
-        onChange={handleChange}
-      />
+      <Autocomplete
+        onLoad={(autocomplete) => (pickupRef.current = autocomplete)}
+        onPlaceChanged={() => handlePlaceChanged(pickupRef, setPickupDetails)}
+      >
+        <input
+          type='text'
+          placeholder='Enter Pickup Location'
+          className={`p-3 rounded w-48 ${bgColor}`}
+        />
+      </Autocomplete>
+      <Autocomplete
+        onLoad={(autocomplete) => (destinationRef.current = autocomplete)}
+        onPlaceChanged={() =>
+          handlePlaceChanged(destinationRef, setDestinationDetails)
+        }
+      >
+        <input
+          type='text'
+          placeholder='Enter Destination'
+          className={`p-3 rounded w-48 ${bgColor}`}
+        />
+      </Autocomplete>
       <button
         type='submit'
         className='bg-blue-800 text-white px-28 p-3 lg:p-3 rounded flex items-center gap-2'

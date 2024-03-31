@@ -2,62 +2,6 @@ import React from 'react';
 import DriverCard from './DriverCard';
 import TabsComponent from './TabsComponent';
 
-const DriversNear = [
-  {
-    name: 'Charles Abels',
-    age: 38,
-    experience: 5,
-    location: 'Lagos',
-    images: '/driver-1.webp',
-    reviews: 5,
-    expertise: '    Van Driver',
-  },
-  {
-    name: 'Charles Abels',
-    age: 38,
-    experience: 5,
-    location: 'Lagos',
-    images: '/driver-1.webp',
-    reviews: 5,
-    expertise: 'Van Driver',
-  },
-  {
-    name: 'Charles Abels',
-    age: 38,
-    experience: 5,
-    location: 'Lagos',
-    images: '/driver-1.webp',
-    reviews: 5,
-    expertise: 'Van Driver',
-  },
-  {
-    name: 'Charles Abels',
-    age: 38,
-    experience: 5,
-    location: 'Lagos',
-    images: '/driver-1.webp',
-    reviews: 5,
-    expertise: 'Van Driver',
-  },
-  {
-    name: 'Charles Abels',
-    age: 38,
-    experience: 5,
-    location: 'Lagos',
-    images: '/driver-1.webp',
-    reviews: 5,
-    expertise: 'Van Driver',
-  },
-  {
-    name: 'Charles Abels',
-    age: 38,
-    experience: 5,
-    location: 'Lagos',
-    images: '/driver-1.webp',
-    reviews: 5,
-    expertise: 'Van Driver',
-  },
-];
 function BestDrivers({ listings }) {
   return (
     <div className='bg-secondary p-10 flex flex-col items-center justify-center'>

@@ -1,23 +1,40 @@
 // onboarding.jsx
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SignupForm from './SignupForm';
 import ListingForm from './ListingForm';
-import { useAuth } from './AuthContext';
-import toast from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
 import DocumentInput from './DocumentInput';
+import Payment from './Payment';
+import { useAuth } from './AuthContext';
+import { useRouter } from 'next/navigation';
+import { fetch } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import toast from 'react-hot-toast';
 import { uploadImage } from '@/utils/helper';
 
 const Onboarding = () => {
+  // const STRAPI_URL = 'https://light-flower-42a8173279.strapiapp.com';
+  const STRAPI_URL = 'http://localhost:1337';
   const router = useRouter();
   const { login } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState({});
   const [signUpData, setSignUpData] = useState({});
   const [listingData, setListingData] = useState({});
-
   const [documentData, setDocumentData] = useState({});
+
+  const searchParams = useSearchParams();
+  const success = searchParams.get('success');
+  const session_id = searchParams.get('session_id');
+
+  const handleSignupSubmit = async (signupData) => {
+    setSignUpData(signupData);
+    setCurrentStep(2); // Move to the listing form step
+  };
+
+  const handleListingSubmit = async (listingData) => {
+    setListingData(listingData);
+    setCurrentStep(3); // Move to the document upload step
+  };
 
   const handleDocumentSubmit = async (documents) => {
     try {
@@ -28,7 +45,6 @@ const Onboarding = () => {
         uploadImage(documents.publicLiability),
       ]);
 
-      console.log(uploadedDocuments);
       // Store the URLs of the uploaded documents
       const documentUrls = {
         driverLicense: uploadedDocuments[0].url,
@@ -36,81 +52,74 @@ const Onboarding = () => {
         publicLiability: uploadedDocuments[2].url,
       };
 
-      // Create the listing with the uploaded document URLs
-      const userRes = await registerUser(signUpData);
-      if (userRes.error) {
-        console.log('User registration failed:', userRes.error.message);
-        toast.error(`${userRes.error.message}`);
-        return;
-      }
-
-      const listingResponse = await fetch(
-        `https://light-flower-42a8173279.strapiapp.com/api/listings`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${userRes.jwt}`, // Assuming the JWT token is needed for authorization
-          },
-          body: JSON.stringify({
-            data: {
-              ...listingData,
-              ...documentUrls,
-              user: userRes.user.id, // Directly link the listing to the user using the user's ID
-            },
-          }),
-        }
-      );
-
-      if (listingResponse.error) {
-        toast.error('Failed to create listing');
-        throw new Error(error.message || 'Failed to create listing');
-      }
-
-      const listing = await listingResponse.json();
-      toast.success('User registered and listing created successfully!');
-      console.log('Listing created:', listing);
-
-      // Redirect to the newly created listing page
-      router.push(`/details/${listing.data.id}`);
+      setDocumentData(documentUrls);
+      setCurrentStep(4); // Move to the payment step
     } catch (error) {
-      console.error('Error creating listing:', error);
+      console.error('Error uploading documents:', error);
       toast.error(`Error: ${error}`);
     }
   };
 
-  const handleSignupSubmit = async (signupData) => {
-    setFormData({ ...formData, ...signupData });
-    setSignUpData(signupData);
+  // Add a useEffect hook to handle payment success when the component mounts
+  useEffect(() => {
+    if (success === 'true' && session_id) {
+      console.log('Payment successful');
+      handlePaymentSuccess(session_id);
+    }
+  }, [success, session_id]);
 
-    setCurrentStep(2); // Move to the listing form step
-  };
+  // Remove the payment verification step and directly proceed with listing creation
+  const handlePaymentSuccess = async (sessionId) => {
+    try {
+      console.log('Payment successful');
+      // Proceed to create the listing
+      const userRes = await registerUser(signUpData);
+      if (userRes.error) {
+        throw new Error(userRes.error.message);
+      }
 
-  const handleListingSubmit = async (listingData) => {
-    // Register the user first
-    setListingData(listingData);
-    setCurrentStep(3); // Move to the document upload step
+      const listingResponse = await fetch(`${STRAPI_URL}/api/listings`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userRes.jwt}`,
+        },
+        body: JSON.stringify({
+          data: {
+            ...listingData,
+            ...documentData,
+            user: userRes.user.id,
+          },
+        }),
+      });
+
+      if (!listingResponse.ok) {
+        const error = await listingResponse.json();
+        throw new Error(error.message || 'Failed to create listing');
+      }
+
+      const listing = await listingResponse.json();
+      toast.success('Payment successful and listing created!');
+      router.push(`/details/${listing.data.id}`);
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error(`Error: ${error.message}`);
+      router.push('/signup?paymentFailed=true'); // Redirect to the signup page with an error indicator
+    }
   };
 
   const registerUser = async (userData) => {
-    console.log(
-      'URLL',
-      `https://light-flower-42a8173279.strapiapp.com/api/auth/local/register`
-    );
-    const response = await fetch(
-      `https://light-flower-42a8173279.strapiapp.com/api/auth/local/register`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: userData.username,
-          email: userData.email,
-          password: userData.password,
-        }),
-        cache: 'no-cache',
-      }
-    );
-    console.log(response);
+    const response = await fetch(`${STRAPI_URL}/api/auth/local/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: userData.username,
+        email: userData.email,
+        password: userData.password,
+      }),
+      cache: 'no-cache',
+    });
+
     const data = await response.json();
     return data;
   };
@@ -125,6 +134,7 @@ const Onboarding = () => {
         />
       )}
       {currentStep === 3 && <DocumentInput submitForm={handleDocumentSubmit} />}
+      {currentStep === 4 && <Payment onPaymentSuccess={handlePaymentSuccess} />}
     </div>
   );
 };

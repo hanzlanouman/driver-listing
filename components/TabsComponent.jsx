@@ -8,63 +8,6 @@ function TabsComponent({ listings }) {
   const indicatorRef = useRef(null);
   const tabsRef = useRef([]);
 
-  const DriversNear = [
-    {
-      name: 'Charles Abels',
-      age: 38,
-      experience: 5,
-      location: 'Lagos',
-      images: '/driver-1.webp',
-      reviews: 5,
-      expertise: '    Van Driver',
-    },
-    {
-      name: 'Charles Abels',
-      age: 38,
-      experience: 5,
-      location: 'Lagos',
-      images: '/driver-1.webp',
-      reviews: 5,
-      expertise: 'Van Driver',
-    },
-    {
-      name: 'Charles Abels',
-      age: 38,
-      experience: 5,
-      location: 'Lagos',
-      images: '/driver-1.webp',
-      reviews: 5,
-      expertise: 'Van Driver',
-    },
-    {
-      name: 'Charles Abels',
-      age: 38,
-      experience: 5,
-      location: 'Lagos',
-      images: '/driver-1.webp',
-      reviews: 5,
-      expertise: 'Van Driver',
-    },
-    {
-      name: 'Charles Abels',
-      age: 38,
-      experience: 5,
-      location: 'Lagos',
-      images: '/driver-1.webp',
-      reviews: 5,
-      expertise: 'Van Driver',
-    },
-    {
-      name: 'Charles Abels',
-      age: 38,
-      experience: 5,
-      location: 'Lagos',
-      images: '/driver-1.webp',
-      reviews: 5,
-      expertise: 'Van Driver',
-    },
-  ];
-
   return (
     <div className='p-4 '>
       <Tabs

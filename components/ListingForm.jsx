@@ -1,19 +1,21 @@
 'use client';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Input } from './ui/input';
 import { Button } from './ui/button';
+import AddressInput from './AddressInput';
 
 const ListingSchema = Yup.object().shape({
   name: Yup.string().required('Required'),
-  address: Yup.string().required('Required'),
+  vicinity: Yup.string().required('Required'),
+  locality: Yup.string().required('Required'),
+  city: Yup.string().required('Required'),
+
+  // postalCode: Yup.string().required('Required'),
   contact: Yup.string().required('Required'),
   businessEmail: Yup.string().email('Invalid email').required('Required'),
   businessPhone: Yup.string().required('Required'),
   typeOfVehicle: Yup.string().required('Required'),
-  zipCode: Yup.string().required('Required'),
   yearsInBusiness: Yup.number().required('Required'),
-  operationArea: Yup.string().required('Required'),
   mileRadius: Yup.number().required('Required'),
   insurance: Yup.string().required('Required'),
 });
@@ -22,26 +24,46 @@ export default function ListingForm({ submitForm, back }) {
   const formik = useFormik({
     initialValues: {
       name: '',
-      address: '',
+      vicinity: '',
+      locality: '',
+      city: '',
+      postalCode: '',
       contact: '',
       businessEmail: '',
       businessPhone: '',
-      zipCode: '',
       typeOfVehicle: '',
       yearsInBusiness: '',
-      operationArea: '',
       mileRadius: '',
       insurance: '',
     },
     validationSchema: ListingSchema,
     onSubmit: (values) => {
       console.log('Listing information:', values);
-      // Dont Clear the form
       submitForm(values);
-
-      // Proceed to the next step or handle the listing submission
     },
   });
+
+  const handleAddressSelect = (place) => {
+    console.log(place);
+    const locality = place.address_components.find((component) =>
+      component.types.includes('administrative_area_level_3')
+    );
+    const city = place.address_components.find((component) =>
+      component.types.includes('administrative_area_level_2')
+    );
+    formik.setFieldValue('vicinity', place.vicinity);
+    formik.setFieldValue('locality', locality ? locality.long_name : '');
+    formik.setFieldValue('city', city ? city.long_name : '');
+    formik.setFieldValue(
+      'postalCode',
+      place.address_components.find((component) =>
+        component.types.includes('postal_code')
+      )?.long_name || ''
+    );
+  };
+
+  // You can also set other fields based on the selected place
+  // For example: formik.setFieldValue('coordinates', place.geometry.location.toJSON());
 
   return (
     <div className='flex items-center justify-center  my-20 xl:flex-row flex-col'>
@@ -75,31 +97,13 @@ export default function ListingForm({ submitForm, back }) {
           <div className='flex gap-x-5 w-full xl:flex-row flex-col'>
             <div className='flex flex-col space-y-5 w-full'>
               <div>
-                <label htmlFor='name'>Address</label>
-                <input
-                  name='address'
-                  type='text'
-                  placeholder='Address'
-                  value={formik.values.address}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.address && formik.errors.address}
-                  className={
-                    formik.touched.address && formik.errors.address
-                      ? 'shadow-sm bg-gray-50 border border-red-600 text-red-600 text-sm rounded focus:ring-primary-500 focus:border-primary-500 block w-full  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light'
-                      : 'shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-primary-500 focus:border-primary-500 block w-full  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light'
-                  }
-                />
-                {formik.touched.address && formik.errors.address && (
-                  <p className='text-red-500 text-xs '>
-                    {formik.errors.address}
-                  </p>
-                )}
+                <label htmlFor='addressDetails'>Address</label>
+                <AddressInput onAddressSelect={handleAddressSelect} />
               </div>
               <div>
                 <label htmlFor='name'>Zip Code</label>
                 <input
-                  name='zipcode'
+                  name='zipCode'
                   type='text'
                   placeholder='Zip Code'
                   value={formik.values.zipCode}
@@ -112,9 +116,9 @@ export default function ListingForm({ submitForm, back }) {
                       : 'shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-primary-500 focus:border-primary-500 block w-full  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light'
                   }
                 />
-                {formik.touched.address && formik.errors.address && (
+                {formik.touched.zipCode && formik.errors.zipCode && (
                   <p className='text-red-500 text-xs '>
-                    {formik.errors.address}
+                    {formik.errors.zipCode}
                   </p>
                 )}
               </div>
