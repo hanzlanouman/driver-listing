@@ -19,11 +19,10 @@ const DriverPage = async ({ params }) => {
       {/* <div className='mx-auto px-4 py-1 relative z-10'> */}
       <h1 className='text-center pt-20 text-3xl font-bold'>Book a Ride</h1>
       <div className='flex lg:flex-row lg:space-x-20 flex-col container px-20 py-10 items-center justify-center '>
-
         <HeroDriver driver={driver} />
         <ContactUsForm />
         {/* <Info driver={driver} /> */}
-        </div>
+      </div>
       {/* </div> */}
     </div>
   );

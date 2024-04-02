@@ -29,7 +29,7 @@ export default function ListingForm({ submitForm, back }) {
       city: '',
       postalCode: '',
       contact: '',
-      businessEmail: '',
+      businessEmail: '8',
       businessPhone: '',
       typeOfVehicle: '',
       yearsInBusiness: '',
@@ -46,7 +46,9 @@ export default function ListingForm({ submitForm, back }) {
   const handleAddressSelect = (place) => {
     console.log(place);
     const locality = place.address_components.find((component) =>
-      component.types.includes('administrative_area_level_3')
+      component.types.includes('admini   strative_area_level_3')
+        ? component
+        : component.types.includes('locality') && component
     );
     const city = place.address_components.find((component) =>
       component.types.includes('administrative_area_level_2')

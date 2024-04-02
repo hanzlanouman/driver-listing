@@ -7,8 +7,6 @@ import DocumentInput from './DocumentInput';
 import Payment from './Payment';
 import { useAuth } from './AuthContext';
 import { useRouter } from 'next/navigation';
-import { fetch } from 'next/navigation';
-import { useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { uploadImage } from '@/utils/helper';
 
@@ -21,10 +19,6 @@ const Onboarding = () => {
   const [signUpData, setSignUpData] = useState({});
   const [listingData, setListingData] = useState({});
   const [documentData, setDocumentData] = useState({});
-
-  const searchParams = useSearchParams();
-  const success = searchParams.get('success');
-  const session_id = searchParams.get('session_id');
 
   const handleSignupSubmit = async (signupData) => {
     setSignUpData(signupData);
@@ -51,32 +45,17 @@ const Onboarding = () => {
         goodsInTransit: uploadedDocuments[1].url,
         publicLiability: uploadedDocuments[2].url,
       };
-
       setDocumentData(documentUrls);
-      setCurrentStep(4); // Move to the payment step
-    } catch (error) {
-      console.error('Error uploading documents:', error);
-      toast.error(`Error: ${error}`);
-    }
-  };
 
-  // Add a useEffect hook to handle payment success when the component mounts
-  useEffect(() => {
-    if (success === 'true' && session_id) {
-      console.log('Payment successful');
-      handlePaymentSuccess(session_id);
-    }
-  }, [success, session_id]);
-
-  // Remove the payment verification step and directly proceed with listing creation
-  const handlePaymentSuccess = async (sessionId) => {
-    try {
       console.log('Payment successful');
       // Proceed to create the listing
       const userRes = await registerUser(signUpData);
       if (userRes.error) {
+        console.log('ERROR');
+        console.log(userRes.error.message);
         throw new Error(userRes.error.message);
       }
+      console.log('User Created');
 
       const listingResponse = await fetch(`${STRAPI_URL}/api/listings`, {
         method: 'POST',
@@ -92,23 +71,67 @@ const Onboarding = () => {
           },
         }),
       });
+      console.log('Listing Created');
 
       if (!listingResponse.ok) {
         const error = await listingResponse.json();
         throw new Error(error.message || 'Failed to create listing');
       }
+      console.log('Some Error here Created');
 
       const listing = await listingResponse.json();
       toast.success('Payment successful and listing created!');
       router.push(`/details/${listing.data.id}`);
     } catch (error) {
-      console.error('Error:', error);
-      toast.error(`Error: ${error.message}`);
-      router.push('/signup?paymentFailed=true'); // Redirect to the signup page with an error indicator
+      console.error('Error uploading documents:', error);
+      toast.error(`Error: ${error}`);
     }
   };
 
+  // Add a useEffect hook to handle payment success when the component mounts
+
+  // Remove the payment verification step and directly proceed with listing creation
+  // const handlePaymentSuccess = async (sessionId) => {
+  //   try {
+  //     console.log('Payment successful');
+  //     // Proceed to create the listing
+  //     const userRes = await registerUser(signUpData);
+  //     if (userRes.error) {
+  //       throw new Error(userRes.error.message);
+  //     }
+
+  //     const listingResponse = await fetch(`${STRAPI_URL}/api/listings`, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         Authorization: `Bearer ${userRes.jwt}`,
+  //       },
+  //       body: JSON.stringify({
+  //         data: {
+  //           ...listingData,
+  //           ...documentData,
+  //           user: userRes.user.id,
+  //         },
+  //       }),
+  //     });
+
+  //     if (!listingResponse.ok) {
+  //       const error = await listingResponse.json();
+  //       throw new Error(error.message || 'Failed to create listing');
+  //     }
+
+  //     const listing = await listingResponse.json();
+  //     toast.success('Payment successful and listing created!');
+  //     router.push(`/details/${listing.data.id}`);
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //     toast.error(`Error: ${error.message}`);
+  //     router.push('/signup?paymentFailed=true'); // Redirect to the signup page with an error indicator
+  //   }
+  // };
+
   const registerUser = async (userData) => {
+    console.log('userData', userData);
     const response = await fetch(`${STRAPI_URL}/api/auth/local/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -121,6 +144,7 @@ const Onboarding = () => {
     });
 
     const data = await response.json();
+    console.log(data);
     return data;
   };
 
@@ -134,7 +158,8 @@ const Onboarding = () => {
         />
       )}
       {currentStep === 3 && <DocumentInput submitForm={handleDocumentSubmit} />}
-      {currentStep === 4 && <Payment onPaymentSuccess={handlePaymentSuccess} />}
+
+      {/* {currentStep === 4 && <Payment onPaymentSuccess={handlePaymentSuccess} />} */}
     </div>
   );
 };

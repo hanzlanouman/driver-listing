@@ -6,10 +6,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2023-10-16',
 });
 
-export const config = {
-  runtime: 'experimental-edge',
-};
-
 export const POST = async (req) => {
   try {
     if (req.method !== 'POST') {
