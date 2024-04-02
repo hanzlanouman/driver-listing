@@ -11,8 +11,8 @@ import toast from 'react-hot-toast';
 import { uploadImage } from '@/utils/helper';
 
 const Onboarding = () => {
-  // const STRAPI_URL = 'https://light-flower-42a8173279.strapiapp.com';
-  const STRAPI_URL = 'http://localhost:1337';
+  const STRAPI_URL = 'https://light-flower-42a8173279.strapiapp.com';
+  // const STRAPI_URL = 'http://localhost:1337';
   const router = useRouter();
   const { login } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
